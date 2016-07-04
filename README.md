@@ -7,4 +7,4 @@ Here I will upload Qu. and Ans. to the SQL tutorials I have worked through.
 
 [SQLZoo](http://sqlzoo.net) - Lots of different datasets to try out. Gives just the right amount of challenge/ help to keep you engaged. 
   - [Intro to Joins (Music)](SQLZoo/Music.sql).
-  - [More Joins (Movies)](SQLZoo/Movies)
+  - [More Joins (Movies)](SQLZoo/Movies.sql)
