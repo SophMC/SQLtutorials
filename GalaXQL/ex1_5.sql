@@ -85,5 +85,88 @@ ON planets.starid = stars.starid
 WHERE stars.starid > 500 
 AND stars.starid < 600
 
+--13. Create a VIEW called "numbers" with the columns "three", "intensity" and 
+--"x", where "x" and "intensity" come from the stars table, "three" contains 
+--the number 3 on all rows. For additional fun, sort the whole thing by "x"
+
+CREATE VIEW numbers
+AS SELECT 3 AS three, stars.intensity AS intensity, stars.x AS x FROM stars
+ORDER BY x;
+
+--14. Create a table named 'colors' with the columns 'color' and 'description'. 
+--Color is integer, description is text. Populate the table with color values 
+--from -3 to 10; each star class has its own color; fill the description with 
+--something (I won't care exactly what). Basic idea is that it will be possible 
+--to make a join between stars and colors where stars' class is compared to 
+--colors' color number
+
+CREATE TABLE colors (color INTEGER, description TEXT);
+INSERT INTO colors(color,description) VALUES 
+(-3,"red"),(-2,"green"),(-1,"blue"),(0,"navy"),(1,"grey"),(2,"pink"),(3,"yellow"
+),(4,"orange"),(5,"white"),(6,"black"),(7,"purple"),(8,"cyan"),(9,"maroon"),(10,
+"lilac");
+
+--15. Create a table called "quotes" with two columns: "id", which is primary 
+--key, and takes integers, and "quote" which contains non-null text strings, 
+--such as quote of the day (http://www.qotd.org/). Fill in a couple of rows so 
+--that I have something to query for. 
+
+CREATE TABLE quotes (id INTEGER PRIMARY KEY, quote TEXT NOT NULL)
+INSERT INTO quotes (id, quote) VALUES (1, "quote1"), (2,"quote2"), (3,"quote3");
+
+--16. First, create and populate a table using this command. Rename the table to 
+--'my_table', and add a column called 'moredata'. Add one whole new row and 
+--change the 'moredata' value of at least one existing row. (Yes, I'm aware you 
+--could do all that by changing the creation commands, but that is not the 
+--point of this exercise).
+
+ALTER TABLE alter_test RENAME TO my_table;
+ALTER TABLE  my_table ADD COLUMN moredata INTEGER;
+INSERT INTO my_table(moredata) VALUES (1), (2);
+
+--17. Hilight the star with the most orbitals (combined planets and moons). If 
+--multiple stars have the highest number of orbitals, highlight the one with 
+--the lowest star id. 
+
+SELECT stars.starid AS starid
+FROM stars 
+LEFT OUTER JOIN planets ON stars.starid == planets.starid
+LEFT OUTER JOIN moons ON planets.planetid == moons.planetid
+GROUP BY stars.starid ORDER BY (COUNT(planets.planetid) + COUNT(moons.moonid)) 
+DESC
+LIMIT 1;
+
+--18. Build a query which returns starids from planets.
+--The starids should be selected so that for each starid (x) in the list:
+--- there should exist a planet with a starid that's three times x but there 
+--should not exist a planet with starid two times x.
+--Only use starids from the planets table.
+
+SELECT starid FROM planets
+INTERSECT 
+SELECT starid*3 FROM planets
+EXCEPT
+SELECT starid*2 FROM planets;
+
+--19. Create a trigger which, when a new star is created, clears the hilight 
+--table and inserts the new star id to the hilight table. 
+
+CREATE TRIGGER highlight_insert
+AFTER INSERT On stars
+BEGIN
+INSERT INTO hilight VALUES (NEW.starid);
+END
+
+-- This should work but doesn't, galaXQL author states there might be a bug.
+
+--20. Use ALTER TABLE to rename the 'gateway' table to 'gateways'. (ALTER TABLE 
+--was covered in chapter 16)
+
+
+
+
+
+
+
 
 
