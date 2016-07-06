@@ -163,9 +163,3 @@ END
 --was covered in chapter 16)
 
 ALTER TABLE gateway RENAME TO gateways
-
-
-
-
-
-
