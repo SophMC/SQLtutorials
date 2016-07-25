@@ -7,6 +7,4 @@
 -- these lines here.
 
 CREATE TABLE players (id SERIAL, name TEXT, wins INTEGER, matches INTEGER);
-
-CREATE TABLE matches (id SERIAL, winner TEXT, loser TEXT);
                    
